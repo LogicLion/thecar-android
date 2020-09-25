@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorAccent">#03DAC5</color>
+
+
+    <!--纯白色-->
+    <color name="color_white">#ffffff</color>
+
+    <!--标题文字 / 重要信息文字-->
+    <color name="color_black_333333">#333333</color>
+
+    <!--灰/ 分隔线-->
+    <color name="color_gray_E4E4E4">#E4E4E4</color>
+
+
+</resources>

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name_release">车有料</string>
+    <string name="app_name_debug">车有料-测试</string>
+</resources>
