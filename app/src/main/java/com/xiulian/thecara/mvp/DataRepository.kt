@@ -2,6 +2,7 @@ package com.xiulian.thecara.mvp
 
 import com.google.gson.Gson
 import com.xiulian.thecara.base.App
+import com.xiulian.thecara.entity.BaseResponse
 import com.xiulian.thecara.entity.RequestParam
 import com.xiulian.thecara.entity.User
 import com.xiulian.thecara.entity.VersionInfoBean
@@ -115,8 +116,8 @@ class DataRepository @Inject constructor() {
     /**
      * 获取版本信息
      */
-    fun getAppVersion() :Single<VersionInfoBean>{
-        return netRequest.appVersion(1).handleHttpResult()
+    fun getAppVersion() :Single<BaseResponse<VersionInfoBean>>{
+        return netRequest.appVersion(1)
     }
 
 

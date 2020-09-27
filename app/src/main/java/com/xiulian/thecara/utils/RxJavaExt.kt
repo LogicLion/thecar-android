@@ -32,10 +32,10 @@ fun <T> Single<BaseResponse<T>>.handleHttpResult(): Single<T> {
     return ioToMain()
         .flatMap {
             val code = it.code
-            val data = it.body
+            val data = it.data
             return@flatMap when {
                 code.isNullOrBlank() -> Single.error<T>(Exception("网络请求错误，错误信息为空"))
-                code == "200" && data != null -> Single.just(data)
+                (code == "200" || code == "0") && data != null -> Single.just(data)
                 code == "10006" -> {
                     clearUserInfo()
                     Single.error<T>(Exception(code))
@@ -47,7 +47,7 @@ fun <T> Single<BaseResponse<T>>.handleHttpResult(): Single<T> {
 
 /**
  * 实现io->main切换
- * 只关心返回码"00000"，不关心请求数据
+ * 只关心返回码"200"，不关心请求数据
  *
  * @return
  */
@@ -57,7 +57,7 @@ fun <T> Single<BaseResponse<T>>.handleResultIgnoreData(): Completable {
             val code = it.code
             return@flatMap when {
                 code.isNullOrBlank() -> Single.error<T>(Exception("网络请求错误，错误信息为空"))
-                code == "000000" -> Single.just(it.code)
+                (code == "200" || code == "0") -> Single.just(it.code)
                 code == "10006" -> {
                     clearUserInfo()
                     Single.error<T>(Exception(code))
@@ -69,7 +69,7 @@ fun <T> Single<BaseResponse<T>>.handleResultIgnoreData(): Completable {
 
 /**
  * 实现io->main切换
- * 因为后台接口格式返回的数据有时候不只是关心返回码"000000"，还要关注特殊的返回码
+ * 因为后台接口格式返回的数据有时候不只是关心返回码"200"，还要关注特殊的返回码
  * 这里只判断响应是否成功，不对返回码判断预处理，此时返回的仍是BaseResponse对象
  * @return
  */
@@ -77,7 +77,7 @@ fun <T> Single<BaseResponse<T>>.handleResultIgnoreCode(): Single<BaseResponse<T>
     return ioToMain()
         .flatMap {
             val code = it.code
-            val data = it.body
+            val data = it.data
             return@flatMap when {
                 code.isNullOrBlank() -> Single.error<BaseResponse<T>>(Exception("网络请求错误，错误信息为空"))
                 data != null -> Single.just(it)

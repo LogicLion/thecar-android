@@ -9,8 +9,12 @@ import android.widget.TextView;
 
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseFragment;
+import com.xiulian.thecara.utils.RxJavaExtKt;
 
 import org.jetbrains.annotations.Nullable;
+
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 /**
  * 首页
@@ -18,20 +22,17 @@ import org.jetbrains.annotations.Nullable;
  * @author wzh
  * @date 2020/9/23
  */
-public class HomeFragment extends BaseFragment implements HomeContract {
+public class HomeFragment extends BaseFragment {
 
     private TextView tvVersion;
+    private HomeViewModel viewModel = new HomeViewModel();
+    private CompositeDisposable compositeDisposable;
 
     @Override
     public int setupContentLayoutId() {
         return R.layout.fragment_home;
     }
 
-    @Override
-    public void setupPresenter() {
-
-
-    }
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
@@ -46,17 +47,24 @@ public class HomeFragment extends BaseFragment implements HomeContract {
         tvPrice.setText(priceString);
         tvDiscount.setText(discountString);
 
-
-    }
-
-    public static HomeFragment getInstance() {
-        return new HomeFragment();
     }
 
 
     @Override
-    public void setAppVersion(int versionCode) {
-        tvVersion.setText("版本号：" + versionCode);
+    public void initViewModel() {
+        compositeDisposable = new CompositeDisposable();
+
+        Disposable disposable = RxJavaExtKt.handleHttpResult(viewModel.getVersionCode())
+                .subscribe(
+                        versionInfoBean -> tvVersion.setText("版本号：" + versionInfoBean.getAppVersionCode()),
+                        error -> {}
+                );
+        compositeDisposable.add(disposable);
+    }
+
+
+    public static HomeFragment getInstance() {
+        return new HomeFragment();
     }
 
 
@@ -73,4 +81,9 @@ public class HomeFragment extends BaseFragment implements HomeContract {
         return spannableString;
     }
 
+    @Override
+    public void onDestroy() {
+        compositeDisposable.clear();
+        super.onDestroy();
+    }
 }

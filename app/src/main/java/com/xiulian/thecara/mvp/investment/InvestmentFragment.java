@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
     }
 
     @Override
-    public void setupPresenter() {
+    public void initViewModel() {
 
     }
 

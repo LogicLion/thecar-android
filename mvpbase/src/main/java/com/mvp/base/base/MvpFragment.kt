@@ -43,14 +43,14 @@ abstract class MvpFragment : Fragment() {
     abstract fun setupLayoutId(): Int
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        setupPresenter()
+        initViewModel()
         if (isCreateView) {
             init(savedInstanceState)
             isCreateView = false
         }
     }
 
-    abstract fun setupPresenter()
+    abstract fun initViewModel()
 
     abstract fun init(savedInstanceState: Bundle?)
 

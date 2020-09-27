@@ -1,8 +1,12 @@
 package com.xiulian.thecara.net;
 
+import android.content.Context;
+import android.os.Build;
 import android.util.Log;
+import android.webkit.WebSettings;
 
 
+import com.xiulian.thecara.base.App;
 import com.xiulian.thecara.constant.Const;
 
 import java.io.IOException;
@@ -34,7 +38,8 @@ public class RetrofitFactory {
                         .newBuilder()
                         .header("Content-Type", "text/DM-")
                         .header("charset", "utf-8")
-                        .header("app_type", "1")
+                        .header("user-agent", getUserAgent(App.getInstance()))//bxtrip需要的header
+                        .header("Authorization", "")
                         .build();
                 return chain.proceed(request);
             }
@@ -74,9 +79,8 @@ public class RetrofitFactory {
                         .newBuilder()
                         .header("charset", "utf-8")
                         .header("Content-Type", "text/DM-")
-                        .header("abstract", absStr)
-                        .header("token", token)
-                        .header("loginType", "0")
+                        .header("user-agent", getUserAgent(App.getInstance()))//bxtrip需要的header
+                        .header("Authorization", "")
                         .build();
                 return chain.proceed(request);
             }
@@ -116,10 +120,8 @@ public class RetrofitFactory {
                         .newBuilder()
                         .header("charset", "utf-8")
                         .header("content-type", "application/json")
-                        .header("Authorization", "Basic Yml4aW46Qml4aW5AMjAxOA==")//bxtrip需要的header
-                        .header("abstract", absStr)
-                        .header("token", token)
-                        .header("loginType", "0")
+                        .header("user-agent", getUserAgent(App.getInstance()))//bxtrip需要的header
+                        .header("Authorization", "")
                         .build();
                 return chain.proceed(request);
             }
@@ -163,5 +165,52 @@ public class RetrofitFactory {
             }
         };
         return hostnameVerifier;
+    }
+
+
+
+    //获取user-agent信息
+    private static String getUserAgent(Context context) {
+        String userAgent = "";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            try {
+                userAgent = WebSettings.getDefaultUserAgent(context);
+            } catch (Exception e) {
+                userAgent = System.getProperty("http.agent");
+            }
+        } else {
+            userAgent = System.getProperty("http.agent");
+        }
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0, length = userAgent.length(); i < length; i++) {
+            char c = userAgent.charAt(i);
+            if (c <= '\u001f' || c >= '\u007f') {
+                sb.append(String.format("\\u%04x", (int) c));
+            } else {
+                sb.append(c);
+            }
+        }
+        if (getAppInfo(context) != null) {
+            return sb.toString()+getAppInfo(context);
+        }else {
+            return sb.toString();
+        }
+
+    }
+
+
+    //获取app版本号
+    private static String getAppInfo(Context context) {
+        try {
+            String pkName = context.getPackageName();
+            String versionName = context.getPackageManager().getPackageInfo(
+                    pkName, 0).versionName;
+            int versionCode = context.getPackageManager()
+                    .getPackageInfo(pkName, 0).versionCode;
+            return "  versionName/" + versionName + "  versionCode/" + versionCode;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

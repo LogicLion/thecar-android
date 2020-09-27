@@ -8,7 +8,7 @@ import java.io.Serializable
  * @date 2019/12/11
  */
 class BaseResponse<T> : Serializable {
-    var body: T? = null
+    var data: T? = null
     val code: String? = null
     val message: String? = null
 

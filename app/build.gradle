@@ -41,7 +41,7 @@ android {
 //            shrinkResources true
 //            buildConfigField("String", "base_url", "\"http://test.guoh.com.cn:8080\"")
 //            buildConfigField("String", "base_url_https", "\"https://test.guoh.com.cn:8443\"")
-            buildConfigField("String", "base_url", "\"http://192.168.31.9:8055\"")
+            buildConfigField("String", "base_url", "\"https://apicyltest.xlbzone.com\"")
             buildConfigField("String", "base_url_https", "\"https://134.175.154.194:8443\"")
 
             //打测试包的签名，需要设置
@@ -55,6 +55,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
     }
 
 }
