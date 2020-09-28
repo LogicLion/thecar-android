@@ -1,5 +1,6 @@
 package com.xiulian.thecara.base
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.view.LayoutInflater
@@ -25,6 +26,7 @@ abstract class BaseFragment : MvpFragment() {
 
         titleBar.setupActivity(activity as BaseActivity)
         LayoutInflater.from(activity!!).inflate(setupContentLayoutId(), contentView)
+
         initView(savedInstanceState)
     }
 

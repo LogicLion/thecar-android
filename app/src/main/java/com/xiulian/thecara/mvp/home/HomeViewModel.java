@@ -16,4 +16,5 @@ class HomeViewModel {
     public Single<BaseResponse<VersionInfoBean>> getVersionCode() {
         return dataRepository.getAppVersion();
     }
+
 }

@@ -1,5 +1,7 @@
 package com.xiulian.thecara.entity;
 
+import android.databinding.ObservableInt;
+
 import java.util.List;
 
 /**

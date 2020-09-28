@@ -1,5 +1,7 @@
 package com.xiulian.thecara.mvp;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.mvp.base.base.MvpFragment;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseActivity;
+import com.xiulian.thecara.databinding.ActivityMainBinding;
+import com.xiulian.thecara.entity.User;
 import com.xiulian.thecara.mvp.car.CarFragment;
 import com.xiulian.thecara.mvp.home.HomeFragment;
 import com.xiulian.thecara.mvp.investment.InvestmentFragment;
@@ -60,6 +64,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView(@Nullable Bundle savedInstanceState) {
+
+        ActivityMainBinding viewDataBinding = DataBindingUtil.setContentView(MainActivity.this, R.layout.activity_main);
+
+        viewDataBinding.setUser(new User());
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
 

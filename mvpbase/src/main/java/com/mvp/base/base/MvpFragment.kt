@@ -1,5 +1,6 @@
 package com.mvp.base.base
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.annotation.IdRes
 import android.support.annotation.LayoutRes
@@ -24,6 +25,7 @@ abstract class MvpFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         if (mContentView == null) {
             mContentView = inflater.inflate(setupLayoutId(), container, false)
+
             isCreateView = true
         } else {
             val parent = mContentView!!.parent
@@ -43,11 +45,13 @@ abstract class MvpFragment : Fragment() {
     abstract fun setupLayoutId(): Int
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initViewModel()
+
         if (isCreateView) {
             init(savedInstanceState)
             isCreateView = false
         }
+
+        initViewModel()
     }
 
     abstract fun initViewModel()
