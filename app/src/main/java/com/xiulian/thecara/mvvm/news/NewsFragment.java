@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvp.car;
+package com.xiulian.thecara.mvvm.news;
 
 import android.os.Bundle;
 
@@ -8,14 +8,14 @@ import com.xiulian.thecara.base.BaseFragment;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 车管家
+ * 资讯
  * @author wzh
  * @date 2020/9/23
  */
- public class CarFragment extends BaseFragment {
+ public class NewsFragment extends BaseFragment {
     @Override
     public int setupContentLayoutId() {
-        return R.layout.fragment_car;
+        return R.layout.fragment_news;
     }
 
     @Override
@@ -28,8 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
     }
 
-   public static CarFragment getInstance() {
-      return new CarFragment();
+   public static NewsFragment getInstance() {
+      return new NewsFragment();
    }
+
 
 }

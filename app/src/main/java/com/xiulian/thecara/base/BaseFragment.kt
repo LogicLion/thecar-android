@@ -1,12 +1,12 @@
 package com.xiulian.thecara.base
 
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.design.widget.CoordinatorLayout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mvp.base.base.MvpFragment
 import com.xiulian.thecara.R
+import com.xiulian.thecara.mvvm.ui.DataBindingConfig
 import com.xiulian.thecara.widget.TitleBar
 
 /**
@@ -15,6 +15,7 @@ import com.xiulian.thecara.widget.TitleBar
  */
 abstract class BaseFragment : MvpFragment() {
     override fun setupLayoutId(): Int = R.layout.fragment_base
+
 
     lateinit var titleBar: TitleBar
     lateinit var contentView: ViewGroup
@@ -33,6 +34,7 @@ abstract class BaseFragment : MvpFragment() {
 
     abstract fun setupContentLayoutId(): Int
     abstract fun initView(savedInstanceState: Bundle?)
+
 
 
     /**

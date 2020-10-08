@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:name="com.xiulian.thecara.base.App"
         android:theme="@style/AppTheme">
-        <activity android:name="com.xiulian.thecara.mvp.MainActivity">
+        <activity android:name="com.xiulian.thecara.mvvm.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <action android:name="android.intent.action.VIEW"/>

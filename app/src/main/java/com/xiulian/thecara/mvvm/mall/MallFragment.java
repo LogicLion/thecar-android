@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvp.mall;
+package com.xiulian.thecara.mvvm.mall;
 
 import android.os.Bundle;
 

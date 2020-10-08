@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvp
+package com.xiulian.thecara.mvvm
 
 import com.google.gson.Gson
 import com.xiulian.thecara.base.App

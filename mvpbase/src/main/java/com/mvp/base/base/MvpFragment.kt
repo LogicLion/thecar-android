@@ -13,7 +13,7 @@ import com.mvp.base.util.ToastTime
 import com.mvp.base.util.showToast
 
 
-abstract class MvpFragment : Fragment() {
+open abstract class MvpFragment : Fragment() {
     protected val TAG = javaClass.simpleName
     private var isCreateView: Boolean = false
 
@@ -33,6 +33,7 @@ abstract class MvpFragment : Fragment() {
                 parent.removeView(mContentView)
             }
         }
+
 
         return mContentView
     }

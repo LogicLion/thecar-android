@@ -52,6 +52,8 @@ dependencies {
     api "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
     api "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
     api "io.reactivex.rxjava2:rxkotlin:$rxkotlinVersion"
+    api 'android.arch.lifecycle:extensions:1.1.1'
+
 
     //每个使用到dagger的module都需要添加下面两行配置
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -76,6 +78,8 @@ dependencies {
 
     //kotlin
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
 
     //ARouter
 //    api 'com.alibaba:arouter-api:1.4.0'

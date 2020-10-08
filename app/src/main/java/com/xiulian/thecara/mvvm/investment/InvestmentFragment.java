@@ -1,9 +1,10 @@
-package com.xiulian.thecara.mvp.investment;
+package com.xiulian.thecara.mvvm.investment;
 
 import android.os.Bundle;
 
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseFragment;
+import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
 
 import org.jetbrains.annotations.Nullable;
 

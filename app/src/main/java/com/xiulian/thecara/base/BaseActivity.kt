@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mvp.base.base.MvpActivity
 import com.xiulian.thecara.R
-import com.xiulian.thecara.mvp.MainActivity
+import com.xiulian.thecara.mvvm.MainActivity
 import com.xiulian.thecara.widget.TitleBar
 
 /**

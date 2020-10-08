@@ -1,7 +1,6 @@
-package com.xiulian.thecara.mvp;
+package com.xiulian.thecara.mvvm;
 
 import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,11 +16,11 @@ import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseActivity;
 import com.xiulian.thecara.databinding.ActivityMainBinding;
 import com.xiulian.thecara.entity.User;
-import com.xiulian.thecara.mvp.car.CarFragment;
-import com.xiulian.thecara.mvp.home.HomeFragment;
-import com.xiulian.thecara.mvp.investment.InvestmentFragment;
-import com.xiulian.thecara.mvp.mall.MallFragment;
-import com.xiulian.thecara.mvp.news.NewsFragment;
+import com.xiulian.thecara.mvvm.car.CarFragment;
+import com.xiulian.thecara.mvvm.home.HomeFragment;
+import com.xiulian.thecara.mvvm.investment.InvestmentFragment;
+import com.xiulian.thecara.mvvm.mall.MallFragment;
+import com.xiulian.thecara.mvvm.news.NewsFragment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -46,7 +45,7 @@ public class MainActivity extends BaseActivity {
     private MallFragment mallFragment;
     private InvestmentFragment investmentFragment;
     private CarFragment carFragment;
-    private ArrayList<MvpFragment> fragmentList;
+    private ArrayList<Fragment> fragmentList;
     private TabLayout tabLayout;
     private FrameLayout frameLayout;
     private int currentPosition;
@@ -203,4 +202,5 @@ public class MainActivity extends BaseActivity {
 
         transaction.show(targetFragment).commit();
     }
+
 }
