@@ -7,8 +7,10 @@ import android.view.View;
 import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.MvvmFragment;
+import com.xiulian.thecara.constant.Const;
+import com.xiulian.thecara.entity.BannerInfo;
+import com.xiulian.thecara.mvvm.DataRepository;
 import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
-import com.xiulian.thecara.utils.RxJavaExtKt;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -38,18 +40,17 @@ public class HomeFragment extends MvvmFragment {
 
         compositeDisposable = new CompositeDisposable();
 
-        Disposable disposable = RxJavaExtKt.handleHttpResult(homeViewModel.getVersionInfo())
-                .subscribe(
-                        versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
-                        error -> {}
-                );
+        Disposable disposable = DataRepository.INSTANCE.getAppVersion().subscribe(
+                versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
+                error -> {
+                }
+        );
         compositeDisposable.add(disposable);
     }
 
     public static HomeFragment getInstance() {
         return new HomeFragment();
     }
-
 
 
     @Override
@@ -61,8 +62,8 @@ public class HomeFragment extends MvvmFragment {
     @Nullable
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return new DataBindingConfig(R.layout.fragment_home, BR.vm,homeViewModel)
-                .addBindingParam(BR.click,new ClickProxy());
+        return new DataBindingConfig(R.layout.fragment_home, BR.vm, homeViewModel)
+                .addBindingParam(BR.click, new ClickProxy());
     }
 
     public class ClickProxy {
@@ -70,7 +71,19 @@ public class HomeFragment extends MvvmFragment {
             int newCode = homeViewModel.versionCode.get();
             newCode++;
             homeViewModel.versionCode.set(newCode);
+        }
 
+        public void getBanner() {
+            Disposable disposable = DataRepository.INSTANCE.getBanner().subscribe(bannerInfoList -> {
+
+                BannerInfo bannerInfo = bannerInfoList.get(0);
+                homeViewModel.bannerImage.set(Const.IMAGE_PREFIX + bannerInfo.getImgId().get(0));
+
+            }, error -> {
+
+            });
+
+            compositeDisposable.add(disposable);
         }
     }
 

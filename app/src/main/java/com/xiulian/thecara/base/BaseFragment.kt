@@ -21,6 +21,7 @@ abstract class BaseFragment : MvpFragment() {
     lateinit var contentView: ViewGroup
 
 
+
     override fun init(savedInstanceState: Bundle?) {
         contentView = findViewById(R.id.content_view)
         titleBar = findViewById(R.id.title_bar)
@@ -29,6 +30,7 @@ abstract class BaseFragment : MvpFragment() {
         LayoutInflater.from(activity!!).inflate(setupContentLayoutId(), contentView)
 
         initView(savedInstanceState)
+
     }
 
 

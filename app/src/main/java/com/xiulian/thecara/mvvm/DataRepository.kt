@@ -2,7 +2,7 @@ package com.xiulian.thecara.mvvm
 
 import com.google.gson.Gson
 import com.xiulian.thecara.base.App
-import com.xiulian.thecara.entity.BaseResponse
+import com.xiulian.thecara.entity.BannerInfo
 import com.xiulian.thecara.entity.RequestParam
 import com.xiulian.thecara.entity.User
 import com.xiulian.thecara.entity.VersionInfoBean
@@ -24,13 +24,14 @@ import javax.inject.Inject
  * @author wzh
  * @date 2019/5/5
  */
-class DataRepository @Inject constructor() {
+object DataRepository  {
 
-    var context= App.instance
-    private val netRequest:NetRequest
-    get() {
-        return RetrofitFactory.createRetrofit()
-    }
+
+    var context = App.instance
+    private val netRequest: NetRequest
+        get() {
+            return RetrofitFactory.createRetrofit()
+        }
 
     private val netRequestWithToken: NetRequest
         get() {
@@ -57,9 +58,11 @@ class DataRepository @Inject constructor() {
         global.userId = getUserInfo().userId
         requestEntity.global = global
         requestEntity.body = map
-        return FormBody.create(MediaType.parse("Content-Type:text/DM-; charset=utf-8"), Gson().toJson(requestEntity))
+        return FormBody.create(
+            MediaType.parse("Content-Type:text/DM-; charset=utf-8"),
+            Gson().toJson(requestEntity)
+        )
     }
-
 
 
     /**
@@ -116,8 +119,16 @@ class DataRepository @Inject constructor() {
     /**
      * 获取版本信息
      */
-    fun getAppVersion() :Single<BaseResponse<VersionInfoBean>>{
-        return netRequest.appVersion(1)
+    fun getAppVersion(): Single<VersionInfoBean> {
+        return netRequest.appVersion(1).handleHttpResult()
+    }
+
+
+    /**
+     * 获取banner列表
+     */
+    fun getBanner() :Single<List<BannerInfo>>{
+        return netRequest.getBannerImage(3,440100).handleHttpResult()
     }
 
 

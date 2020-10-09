@@ -18,5 +18,8 @@ object Const {
     const val BASE_URL_HTTPS = BuildConfig.base_url_https
 
     const val PRICE_COMPARE = BASE_URL + "/h5web/dist/index.html#/ticketIndex"
+
+
+    const val IMAGE_PREFIX = BASE_URL + "/api/getfile/img?id="
 //    const val PRICE_COMPARE = "http://test.guoh.com.cn:8080/h5web/dist/index.html#/ticketIndex"
 }
