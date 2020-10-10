@@ -22,4 +22,13 @@ public class HomeViewModel extends ViewModel {
     public final ObservableInt versionCode = new ObservableInt();
     public final ObservableField<String> bannerImage = new ObservableField<>();
 
+
+    public Single<VersionInfoBean> getVersion() {
+        return DataRepository.INSTANCE.getAppVersion();
+    }
+
+    public Single<List<BannerInfo>> getBanner() {
+        return DataRepository.INSTANCE.getBanner();
+    }
+
 }

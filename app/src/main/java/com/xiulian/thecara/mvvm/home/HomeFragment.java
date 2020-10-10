@@ -9,13 +9,11 @@ import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.MvvmFragment;
 import com.xiulian.thecara.constant.Const;
 import com.xiulian.thecara.entity.BannerInfo;
-import com.xiulian.thecara.mvvm.DataRepository;
 import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
 
 import org.jetbrains.annotations.Nullable;
 
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 
 /**
  * 首页
@@ -25,7 +23,7 @@ import io.reactivex.disposables.Disposable;
  */
 public class HomeFragment extends MvvmFragment {
 
-    private CompositeDisposable compositeDisposable;
+    private CompositeDisposable mDisposable;
     private HomeViewModel homeViewModel;
 
 
@@ -38,14 +36,13 @@ public class HomeFragment extends MvvmFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        compositeDisposable = new CompositeDisposable();
+        mDisposable = new CompositeDisposable();
 
-        Disposable disposable = DataRepository.INSTANCE.getAppVersion().subscribe(
+        mDisposable.add(homeViewModel.getVersion().subscribe(
                 versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
                 error -> {
                 }
-        );
-        compositeDisposable.add(disposable);
+        ));
     }
 
     public static HomeFragment getInstance() {
@@ -55,7 +52,7 @@ public class HomeFragment extends MvvmFragment {
 
     @Override
     public void onDestroy() {
-        compositeDisposable.clear();
+        mDisposable.clear();
         super.onDestroy();
     }
 
@@ -74,16 +71,15 @@ public class HomeFragment extends MvvmFragment {
         }
 
         public void getBanner() {
-            Disposable disposable = DataRepository.INSTANCE.getBanner().subscribe(bannerInfoList -> {
+            mDisposable.add(homeViewModel.getBanner().subscribe(bannerInfoList -> {
 
                 BannerInfo bannerInfo = bannerInfoList.get(0);
                 homeViewModel.bannerImage.set(Const.IMAGE_PREFIX + bannerInfo.getImgId().get(0));
 
             }, error -> {
 
-            });
+            }));
 
-            compositeDisposable.add(disposable);
         }
     }
 

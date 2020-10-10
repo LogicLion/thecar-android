@@ -1,11 +1,11 @@
 ext {
     // Sdk and tools
     minSdkVersion = 19
-    targetSdkVersion = 26
-    compileSdkVersion = 26
+    targetSdkVersion = 27
+    compileSdkVersion = 27
 
     //app dependencies
-    supportLibraryVersion = '26.0.0-alpha1'
+    supportLibraryVersion = '27.1.0'
     constraintLayoutVersion = '2.0.0-alpha5'
     guavaVersion = '23.0'
     daggerVersion = '2.15'

@@ -64,8 +64,6 @@ public abstract class MvvmFragment extends Fragment {
 
 
 
-
-
     protected abstract DataBindingConfig getDataBindingConfig();
 
 }
