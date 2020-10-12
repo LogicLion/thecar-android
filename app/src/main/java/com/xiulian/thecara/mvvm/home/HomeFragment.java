@@ -23,7 +23,7 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class HomeFragment extends MvvmFragment {
 
-    private CompositeDisposable mDisposable;
+    private CompositeDisposable mDisposable=new CompositeDisposable();;
     private HomeViewModel homeViewModel;
 
 
@@ -36,12 +36,9 @@ public class HomeFragment extends MvvmFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mDisposable = new CompositeDisposable();
-
         mDisposable.add(homeViewModel.getVersion().subscribe(
                 versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
-                error -> {
-                }
+                error -> {}
         ));
     }
 
@@ -72,13 +69,9 @@ public class HomeFragment extends MvvmFragment {
 
         public void getBanner() {
             mDisposable.add(homeViewModel.getBanner().subscribe(bannerInfoList -> {
-
                 BannerInfo bannerInfo = bannerInfoList.get(0);
                 homeViewModel.bannerImage.set(Const.IMAGE_PREFIX + bannerInfo.getImgId().get(0));
-
-            }, error -> {
-
-            }));
+            }, error -> {}));
 
         }
     }

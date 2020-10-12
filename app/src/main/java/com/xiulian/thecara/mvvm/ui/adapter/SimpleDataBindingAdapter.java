@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.adapter;
+package com.xiulian.thecara.mvvm.ui.adapter;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;

@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.adapter;
+package com.xiulian.thecara.mvvm.ui.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -13,22 +13,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author wzh
  * @date 2020/10/10
  */
-public abstract class BaseDataBindingAdapter <M, B extends ViewDataBinding> extends ListAdapter<M, RecyclerView.ViewHolder> {
+public abstract class BaseDataBindingAdapter<M, B extends ViewDataBinding> extends ListAdapter<M, RecyclerView.ViewHolder> {
     protected BaseDataBindingAdapter(@NonNull DiffUtil.ItemCallback<M> diffCallback) {
         super(diffCallback);
     }
 
 
-
     @Override
     public void submitList(@Nullable List<M> list) {
-        super.submitList(list);
+        List<M> newList = list == null ? new ArrayList<>() : new ArrayList<>(list);
+        super.submitList(newList);
     }
 
     @NonNull
