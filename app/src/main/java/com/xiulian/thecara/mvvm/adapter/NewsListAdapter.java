@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.ui.adapter;
+package com.xiulian.thecara.mvvm.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.databinding.ItemRecyclerNewsListBinding;
 import com.xiulian.thecara.entity.NewsInfo;
+import com.xiulian.thecara.mvvm.common.DiffUtils;
+import com.xiulian.thecara.mvvm.common.SimpleDataBindingAdapter;
 
 /**
  * @author wzh

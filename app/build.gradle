@@ -67,11 +67,19 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation project(path: ':mvpbase')
+    implementation 'com.android.support:cardview-v7:27.1.0'
     testImplementation 'junit:junit:4.12'
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.google.zxing:core:3.4.0'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.50'
+
+    //banner
+    implementation 'cn.bingoogolapple:bga-banner:2.1.8@aar'
+
+    implementation 'com.github.ome450901:SimpleRatingBar:1.4.0'
+
 
 }

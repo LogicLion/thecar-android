@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
+import com.xiulian.thecara.mvvm.common.DataBindingConfig;
 import com.xiulian.thecara.widget.TitleBar;
 
 import org.jetbrains.annotations.Nullable;

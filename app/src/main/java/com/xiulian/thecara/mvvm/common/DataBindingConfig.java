@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.ui;
+package com.xiulian.thecara.mvvm.common;
 
 import android.arch.lifecycle.ViewModel;
 import android.util.SparseArray;

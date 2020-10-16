@@ -1,10 +1,12 @@
-package com.xiulian.thecara.mvvm.ui.adapter;
+package com.xiulian.thecara.mvvm.common;
 
 import android.content.Context;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
+
+import com.xiulian.thecara.mvvm.common.BaseDataBindingAdapter;
 
 /**
  * @author wzh

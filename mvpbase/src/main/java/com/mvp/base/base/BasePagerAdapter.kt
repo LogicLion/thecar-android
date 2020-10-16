@@ -12,7 +12,7 @@ import android.view.ViewGroup
  * @author wzh
  * @date 2019/8/8
  */
-abstract class BasePagerAdapter<T>(@LayoutRes private val layoutId: Int) : PagerAdapter(), View.OnClickListener {
+ abstract class BasePagerAdapter<T>(@LayoutRes  val layoutId: Int) : PagerAdapter(), View.OnClickListener {
 
     protected lateinit var context: Context
     open var items = mutableListOf<T>()

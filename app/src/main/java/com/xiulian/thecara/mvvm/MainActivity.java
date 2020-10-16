@@ -1,10 +1,13 @@
 package com.xiulian.thecara.mvvm;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -20,6 +23,7 @@ import com.xiulian.thecara.mvvm.car.CarFragment;
 import com.xiulian.thecara.mvvm.home.HomeFragment;
 import com.xiulian.thecara.mvvm.investment.InvestmentFragment;
 import com.xiulian.thecara.mvvm.mall.MallFragment;
+import com.xiulian.thecara.mvvm.mine.PointsCenterActivity;
 import com.xiulian.thecara.mvvm.news.NewsFragment;
 
 import org.jetbrains.annotations.Nullable;
@@ -49,6 +53,7 @@ public class MainActivity extends BaseActivity {
     private TabLayout tabLayout;
     private FrameLayout frameLayout;
     private int currentPosition;
+    private DrawerLayout mDrawerLayout;
 
 
     @Override
@@ -66,9 +71,15 @@ public class MainActivity extends BaseActivity {
 
         ActivityMainBinding viewDataBinding = DataBindingUtil.setContentView(MainActivity.this, R.layout.activity_main);
 
+
+        mDrawerLayout = viewDataBinding.drawerLayout;
         viewDataBinding.setUser(new User());
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
+        TextView tvSignIn = findViewById(R.id.tv_sign_in);
+        tvSignIn.setOnClickListener(v -> {
+            startActivity(new Intent(MainActivity.this, PointsCenterActivity.class));
+        });
 
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
         newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
@@ -203,4 +214,16 @@ public class MainActivity extends BaseActivity {
         transaction.show(targetFragment).commit();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+    }
+
+    public void openDrawer() {
+        mDrawerLayout.openDrawer(GravityCompat.START);
+    }
 }

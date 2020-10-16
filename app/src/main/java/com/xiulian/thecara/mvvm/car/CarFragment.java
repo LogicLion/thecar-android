@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseFragment;
-import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
 
 import org.jetbrains.annotations.Nullable;
 

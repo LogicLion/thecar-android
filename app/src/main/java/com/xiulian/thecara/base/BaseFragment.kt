@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.mvp.base.base.MvpFragment
 import com.xiulian.thecara.R
-import com.xiulian.thecara.mvvm.ui.DataBindingConfig
 import com.xiulian.thecara.widget.TitleBar
 
 /**

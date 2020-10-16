@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.ui.binding_adapter;
+package com.xiulian.thecara.mvvm.binding_adapter;
 
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;

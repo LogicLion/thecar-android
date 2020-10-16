@@ -10,8 +10,8 @@ import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.MvvmFragment;
 import com.xiulian.thecara.entity.NewsInfo;
-import com.xiulian.thecara.mvvm.ui.DataBindingConfig;
-import com.xiulian.thecara.mvvm.ui.adapter.NewsListAdapter;
+import com.xiulian.thecara.mvvm.common.DataBindingConfig;
+import com.xiulian.thecara.mvvm.adapter.NewsListAdapter;
 
 import java.util.ArrayList;
 

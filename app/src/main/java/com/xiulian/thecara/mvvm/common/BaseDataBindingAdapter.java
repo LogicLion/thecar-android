@@ -1,11 +1,10 @@
-package com.xiulian.thecara.mvvm.ui.adapter;
+package com.xiulian.thecara.mvvm.common;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.recyclerview.extensions.AsyncDifferConfig;
 import android.support.v7.recyclerview.extensions.ListAdapter;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +23,7 @@ public abstract class BaseDataBindingAdapter<M, B extends ViewDataBinding> exten
     protected BaseDataBindingAdapter(@NonNull DiffUtil.ItemCallback<M> diffCallback) {
         super(diffCallback);
     }
+
 
 
     @Override

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.xiulian.thecara.mvvm.ui.adapter;
+package com.xiulian.thecara.mvvm.common;
 
 
 import android.support.annotation.NonNull;

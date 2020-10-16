@@ -1,4 +1,30 @@
 <resources>
     <string name="app_name_release">车有料</string>
     <string name="app_name_debug">车有料-测试</string>
+
+    <string name="check_archives" >查档案</string>
+    <string name="find_shop" >找门店</string>
+    <string name="writing_evaluation" >写评价</string>
+    <string name="record_oil" >记加油</string>
+
+    <string name="home_tab_1">有料推荐</string>
+    <string name="home_tab_2">附近门店</string>
+    <string name="advert">广告</string>
+
+    <string name="sign_in">签到</string>
+    <string name="my_oder">我的订单</string>
+    <string name="driving_license">驾照</string>
+    <string name="coupons">优惠券</string>
+    <string name="points_mall">积分商城</string>
+    <string name="customer_service_center">客服中心</string>
+    <string name="setting">设置</string>
+
+    <string name="points_center">积分中心</string>
+    <string name="points_detail">积分明细</string>
+    <string name="points_usable">可用积分</string>
+    <string name="new_task">新人任务</string>
+    <string name="more_points">更多积分</string>
+    <string name="see_all">查看全部</string>
+    <string name="points_exchange">积分兑礼</string>
+
 </resources>
