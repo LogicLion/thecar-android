@@ -131,7 +131,6 @@ object DataRepository  {
         return netRequest.getBannerImage(3,440100).handleHttpResult()
     }
 
-
 }
 
 

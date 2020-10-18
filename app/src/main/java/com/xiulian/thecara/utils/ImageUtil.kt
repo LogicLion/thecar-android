@@ -17,7 +17,7 @@ import java.text.DecimalFormat
  * @author wzh
  * @date 2019/7/15
  */
-object ImageLoader {
+object ImageUtil {
     private var headOptions: RequestOptions
     private var coverOptions: RequestOptions
     private var coverCornerOptions: RequestOptions
@@ -47,7 +47,8 @@ object ImageLoader {
         //封面(圆角)
         val cornerOptions = RequestOptions()
         coverCornerOptions=cornerOptions
-            .transform(roundTransform).placeholder(R.drawable.bg_cover)
+            .transform(roundTransform)
+//            .placeholder(R.drawable.bg_cover)
 
     }
 
@@ -70,7 +71,7 @@ object ImageLoader {
      */
     fun loadCoverImage(context: Context, imageUrl: String?, view: ImageView) {
         //用.9图的话,右边和下边务必黑线画满
-        view.setBackgroundResource(R.drawable.bg_cover)
+//        view.setBackgroundResource(R.drawable.bg_cover)
         Glide.with(context).load(imageUrl)
             .apply(coverOptions)
             .into(view)
@@ -83,7 +84,7 @@ object ImageLoader {
      * @param view 目标imageView
      */
     fun loadCornerCoverImage(context: Context, imageUrl: String?, view: ImageView) {
-        view.setBackgroundResource(R.drawable.bg_cover)
+//        view.setBackgroundResource(R.drawable.bg_cover)
         Glide.with(context).load(imageUrl)
             .apply(coverCornerOptions)
             .into(view)

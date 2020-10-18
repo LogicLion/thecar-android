@@ -1,18 +1,22 @@
 package com.xiulian.thecara.mvvm.home;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
-import com.willy.ratingbar.ScaleRatingBar;
 import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
+import com.xiulian.thecara.base.App;
 import com.xiulian.thecara.base.MvvmFragment;
 import com.xiulian.thecara.constant.Const;
 import com.xiulian.thecara.entity.BannerInfo;
@@ -23,7 +27,10 @@ import com.xiulian.thecara.mvvm.adapter.NavigationMenuPagerAdapter;
 import com.xiulian.thecara.mvvm.adapter.ShopListAdapter;
 import com.xiulian.thecara.mvvm.common.CommonViewPagerAdapter;
 import com.xiulian.thecara.mvvm.common.DataBindingConfig;
-import com.xiulian.thecara.utils.ImageLoader;
+import com.xiulian.thecara.utils.BannerImageLoader;
+import com.xiulian.thecara.utils.DisplayUtil;
+import com.xiulian.thecara.utils.ImageUtil;
+import com.youth.banner.Banner;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -45,6 +52,20 @@ public class HomeFragment extends MvvmFragment {
     private CompositeDisposable mDisposable=new CompositeDisposable();;
     private HomeViewModel homeViewModel;
 
+    //记录上一个页面所在的页数
+    private int lastPage;
+
+    //设置图片集合
+    String imgUrl = "https://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/forum/pic/item/7aec54e736d12f2ee585941a58c2d562843568c3.jpg";
+    String imgUrl1 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603026849103&di=3f60846af61c1a15de869f0d31678d75&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201902%2F07%2F20190207192320_rotkp.jpg";
+    String imgUrl2 = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1603027048277&di=dfa764236a62bee9531f08bba5f4ae5c&imgtype=0&src=http%3A%2F%2Fimg.zhangton.com%2Fuploads%2Fzedit%2F2019-12%2F09%2F20191209100022_87536.gif";
+    List<String> images = new ArrayList<>();
+
+    private Integer[] indicators = {
+            R.drawable.shape_color_white_indicator_selected,
+            R.drawable.shape_color_white_indicator_unselected
+    };
+    private LinearLayout mBannerIndicator;
 
     @Override
     public void initViewModel() {
@@ -56,24 +77,47 @@ public class HomeFragment extends MvvmFragment {
         super.onViewCreated(view, savedInstanceState);
 
         ViewPager vpMenu = view.findViewById(R.id.vp_navigation_menu);
-        BGABanner banner = view.findViewById(R.id.banner);
+        Banner banner = view.findViewById(R.id.banner);
         ViewPager vpHome = view.findViewById(R.id.vp_home);
         FrameLayout flChip = view.findViewById(R.id.fl_chip_content);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         RecyclerView rvNews = view.findViewById(R.id.rv_news);
+        mBannerIndicator = view.findViewById(R.id.ll_banner_indicator);
 
         View viewChipType1 = View.inflate(getContext(), R.layout.home_chip_type_2, null);
         flChip.addView(viewChipType1);
 
 
-        banner.setAdapter(new BGABanner.Adapter() {
-            @Override
-            public void fillBannerItem(BGABanner bgaBanner, View view, Object o, int i) {
+        //设置图片加载器
+        banner.setImageLoader(new BannerImageLoader());
 
-                ImageLoader.INSTANCE.loadCornerCoverImage(view.getContext(),"", (ImageView) view);
+        images.add(imgUrl);
+        images.add(imgUrl1);
+        images.add(imgUrl2);
+        banner.setImages(images);
+        //banner设置方法全部调用完毕时最后调用
+        banner.start();
+        banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                selectIndicator(position);
+                lastPage = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
-        banner.setData(Arrays.asList("网络图片路径1", "网络图片路径2", "网络图片路径3","网络图片路径4"),null);
+
+
+        //设置指示点
+        setupPageIndicator();
 
         NavigationMenuPagerAdapter pageAdapter = new NavigationMenuPagerAdapter();
         List<List<NewsInfo>> tabs = new ArrayList<>();
@@ -120,6 +164,22 @@ public class HomeFragment extends MvvmFragment {
                 versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
                 error -> {}
         ));
+
+        CoordinatorLayout cl = view.findViewById(R.id.cl);
+        Toolbar toolbar = view.findViewById(R.id.toolbar);
+        AppBarLayout appbarLayout = view.findViewById(R.id.appbarLayout);
+        View clTitle = view.findViewById(R.id.cl_title);
+        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.v("滑动距离", verticalOffset+"");
+                if (-verticalOffset > DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.INVISIBLE) {
+                    clTitle.setVisibility(View.VISIBLE);
+                }else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
+                    clTitle.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
     }
 
     public static HomeFragment getInstance() {
@@ -161,6 +221,33 @@ public class HomeFragment extends MvvmFragment {
                 ((MainActivity) getContext()).openDrawer();
             }
         }
+    }
+
+
+    /**
+     * 设置指示点
+     */
+    private void setupPageIndicator() {
+
+        for (int i = 0; i < images.size(); i++) {
+            ImageView pointView = new ImageView(getContext());
+            pointView.setImageResource(indicators[1]);
+
+            int paddingValue= DisplayUtil.dpToPx(App.getInstance(),2);
+            pointView.setPadding(paddingValue,0,paddingValue,0);
+
+            mBannerIndicator.addView(pointView);
+        }
+        selectIndicator(0);
+    }
+
+
+    private void selectIndicator(int page) {
+        ImageView  last= (ImageView) mBannerIndicator.getChildAt(lastPage);
+        last.setImageResource(indicators[1]);
+
+        ImageView  selected= (ImageView) mBannerIndicator.getChildAt(page);
+        selected.setImageResource(indicators[0]);
     }
 
 }

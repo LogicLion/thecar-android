@@ -23,7 +23,6 @@ public class ShopListAdapter extends SimpleDataBindingAdapter<NewsInfo, ItemHome
 
     @Override
     protected void onBindItem(ItemHomeShopBinding binding, NewsInfo item, RecyclerView.ViewHolder holder) {
-        binding.ratingBar.setClickable(false);
         binding.setNewsInfo(item);
     }
 }
