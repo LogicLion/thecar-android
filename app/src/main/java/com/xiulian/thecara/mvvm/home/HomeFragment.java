@@ -6,6 +6,8 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.App;
@@ -29,16 +32,13 @@ import com.xiulian.thecara.mvvm.common.CommonViewPagerAdapter;
 import com.xiulian.thecara.mvvm.common.DataBindingConfig;
 import com.xiulian.thecara.utils.BannerImageLoader;
 import com.xiulian.thecara.utils.DisplayUtil;
-import com.xiulian.thecara.utils.ImageUtil;
 import com.youth.banner.Banner;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import cn.bingoogolapple.bgabanner.BGABanner;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -49,7 +49,7 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 public class HomeFragment extends MvvmFragment {
 
-    private CompositeDisposable mDisposable=new CompositeDisposable();;
+    private CompositeDisposable mDisposable=new CompositeDisposable();
     private HomeViewModel homeViewModel;
 
     //记录上一个页面所在的页数
@@ -82,9 +82,10 @@ public class HomeFragment extends MvvmFragment {
         FrameLayout flChip = view.findViewById(R.id.fl_chip_content);
         TabLayout tabLayout = view.findViewById(R.id.tab_layout);
         RecyclerView rvNews = view.findViewById(R.id.rv_news);
+        RecyclerView rvShop = view.findViewById(R.id.rv_shop);
         mBannerIndicator = view.findViewById(R.id.ll_banner_indicator);
 
-        View viewChipType1 = View.inflate(getContext(), R.layout.home_chip_type_2, null);
+        View viewChipType1 = View.inflate(getContext(), R.layout.view_home_chip_type_2, null);
         flChip.addView(viewChipType1);
 
 
@@ -152,34 +153,56 @@ public class HomeFragment extends MvvmFragment {
         list1.add(new NewsInfo("资讯3",3));
         list1.add(new NewsInfo("资讯3",1));
 
-        rvNews.setAdapter(new HomeNewsAdapter(list1));
+        rvNews.setLayoutManager(new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        rvNews.setFocusable(false);
+        rvNews.setNestedScrollingEnabled(false);
+        HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(list1);
+        homeNewsAdapter.setOnLoadMoreListener(() -> {
+            Log.v("加载更多", "加载更多");
+        },rvNews);
+        homeNewsAdapter.openLoadAnimation();
+        rvNews.setAdapter(homeNewsAdapter);
+
 
         ArrayList<NewsInfo> list2 = new ArrayList<>();
         list2.add(new NewsInfo("门店1"));
         list2.add(new NewsInfo("门店2"));
         list2.add(new NewsInfo("门店3"));
-        homeViewModel.shopInfoList.set(list2);
+
+        rvShop.setLayoutManager(new LinearLayoutManager(getContext()) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        rvShop.setFocusable(false);
+        rvShop.setNestedScrollingEnabled(false);
+        rvShop.setAdapter(new ShopListAdapter(list2));
 
         mDisposable.add(homeViewModel.getVersion().subscribe(
                 versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
                 error -> {}
         ));
 
-        CoordinatorLayout cl = view.findViewById(R.id.cl);
-        Toolbar toolbar = view.findViewById(R.id.toolbar);
-        AppBarLayout appbarLayout = view.findViewById(R.id.appbarLayout);
-        View clTitle = view.findViewById(R.id.cl_title);
-        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.v("滑动距离", verticalOffset+"");
-                if (-verticalOffset > DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.INVISIBLE) {
-                    clTitle.setVisibility(View.VISIBLE);
-                }else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
-                    clTitle.setVisibility(View.INVISIBLE);
-                }
-            }
-        });
+//        CoordinatorLayout cl = view.findViewById(R.id.cl);
+//        AppBarLayout appbarLayout = view.findViewById(R.id.appbarLayout);
+//        View clTitle = view.findViewById(R.id.cl_title);
+//        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                Log.v("滑动距离", verticalOffset+"");
+//                if (-verticalOffset > DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.INVISIBLE) {
+//                    clTitle.setVisibility(View.VISIBLE);
+//                }else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
+//                    clTitle.setVisibility(View.INVISIBLE);
+//                }
+//            }
+//        });
     }
 
     public static HomeFragment getInstance() {
@@ -196,9 +219,8 @@ public class HomeFragment extends MvvmFragment {
     @Nullable
     @Override
     protected DataBindingConfig getDataBindingConfig() {
-        return new DataBindingConfig(R.layout.fragment_home, BR.vm, homeViewModel)
-                .addBindingParam(BR.click, new ClickProxy())
-                .addBindingParam(BR.shopAdapter, new ShopListAdapter(getContext()));
+        return new DataBindingConfig(R.layout.fragment_home_1, BR.vm, homeViewModel)
+                .addBindingParam(BR.click, new ClickProxy());
     }
 
     public class ClickProxy {
@@ -213,7 +235,6 @@ public class HomeFragment extends MvvmFragment {
                 BannerInfo bannerInfo = bannerInfoList.get(0);
                 homeViewModel.bannerImage.set(Const.IMAGE_PREFIX + bannerInfo.getImgId().get(0));
             }, error -> {}));
-
         }
 
         public void openDrawer() {
@@ -249,5 +270,8 @@ public class HomeFragment extends MvvmFragment {
         ImageView  selected= (ImageView) mBannerIndicator.getChildAt(page);
         selected.setImageResource(indicators[0]);
     }
+
+
+
 
 }

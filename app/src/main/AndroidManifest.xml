@@ -19,9 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".mvvm.mine.PointsCenterActivity"/>
-        <activity android:name=".mvvm.mine.PointsTaskListActivity" />
-        <activity android:name=".mvvm.mine.PointsDetailActivity"/>
+        <activity android:name=".mvvm.points.PointsCenterActivity"/>
+        <activity android:name=".mvvm.points.PointsTaskListActivity"/>
+        <activity android:name=".mvvm.points.PointsRecordActivity"/>
+        <activity android:name=".mvvm.points.PointsExchangeActivity"/>
     </application>
 
 </manifest>

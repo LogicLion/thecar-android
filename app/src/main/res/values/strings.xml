@@ -26,5 +26,6 @@
     <string name="more_points">更多积分</string>
     <string name="see_all">查看全部</string>
     <string name="points_exchange">积分兑礼</string>
+    <string name="exchange_now">立即兑换</string>
 
 </resources>

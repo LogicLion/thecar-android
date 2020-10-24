@@ -1,25 +1,27 @@
 package com.xiulian.thecara.mvvm.adapter;
 
-import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.xiulian.thecara.R;
-import com.xiulian.thecara.databinding.ItemRecyclerNewsListBinding;
 import com.xiulian.thecara.entity.NewsInfo;
-import com.xiulian.thecara.mvvm.common.DiffUtils;
-import com.xiulian.thecara.mvvm.common.SimpleDataBindingAdapter;
+
+import java.util.List;
 
 /**
  * @author wzh
  * @date 2020/10/10
  */
-public class NewsListAdapter extends SimpleDataBindingAdapter<NewsInfo, ItemRecyclerNewsListBinding> {
-    public NewsListAdapter(Context context) {
-        super(context, R.layout.item_recycler_news_list, DiffUtils.getInstance().getTestMusicItemCallback());
+public class NewsListAdapter extends BaseQuickAdapter<NewsInfo, BaseViewHolder> {
+
+    public NewsListAdapter(@Nullable List<NewsInfo> data) {
+        super(R.layout.item_recycler_news_list, data);
     }
 
     @Override
-    protected void onBindItem(ItemRecyclerNewsListBinding binding, NewsInfo item, RecyclerView.ViewHolder holder) {
-        binding.setNewsInfo(item);
+    protected void convert(@NonNull BaseViewHolder helper, NewsInfo item) {
+
     }
 }

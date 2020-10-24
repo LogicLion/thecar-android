@@ -6,9 +6,6 @@
         <variable
             name="vm"
             type="com.xiulian.thecara.mvvm.news.NewsViewModel" />
-        <variable
-            name="adapter"
-            type="com.xiulian.thecara.mvvm.adapter.NewsListAdapter" />
 
     </data>
 
@@ -22,8 +19,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.RecyclerView
-                app:bindAdapter="@{adapter}"
-                app:submitList="@{vm.newsInfoList}"
+                android:id="@+id/rv_news"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

@@ -1,4 +1,4 @@
-package com.xiulian.thecara.mvvm.mine;
+package com.xiulian.thecara.mvvm.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,13 +11,13 @@ import com.xiulian.thecara.entity.PointsTaskInfo;
 import java.util.List;
 
 /**
- * 更多积分
+ * 积分记录明细
  * @author wzh
  * @date 2020/10/16
  */
-public class PointsTaskDetailAdapter extends BaseQuickAdapter<PointsTaskInfo, BaseViewHolder> {
-    public PointsTaskDetailAdapter(@Nullable List<PointsTaskInfo> data) {
-        super(R.layout.item_points_detail, data);
+public class PointsRecordAdapter extends BaseQuickAdapter<PointsTaskInfo, BaseViewHolder> {
+    public PointsRecordAdapter(@Nullable List<PointsTaskInfo> data) {
+        super(R.layout.item_points_record, data);
     }
 
     @Override

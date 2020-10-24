@@ -61,6 +61,28 @@ android {
         enabled true
     }
 
+    //-------------------Android res/layout下布局文件分类管理------------
+    def listSubFile = {
+        //把mvvm-res视作res资源文件夹根目录,mvvm-res下一级的文件夹可按模块命名（目前只有mvvm一个）
+        def resFolder = 'src/main/res/mvvm-res'
+        def files = file(resFolder).listFiles()
+        def folders = []
+        //谁先add默认在Android studio的android视图下新的layout创建时添加到res下的layout文件夹还是mvvm-res下的layout文件夹
+        folders.add(file(resFolder).parentFile.absolutePath)
+        files.each {
+            item -> folders.add(item.absolutePath)
+        }
+
+        return folders
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = listSubFile()
+        }
+    }
+    //-------------------Android res/layout下布局文件分类管理------------
+
 }
 
 dependencies {

@@ -1,25 +1,13 @@
 package com.xiulian.thecara.mvvm.adapter;
 
-import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.mvp.base.base.BaseAdapter;
-import com.mvp.base.base.ViewHolder;
 import com.xiulian.thecara.R;
-import com.xiulian.thecara.databinding.ItemRecyclerNavigationMenuBinding;
 import com.xiulian.thecara.entity.NewsInfo;
-import com.xiulian.thecara.mvvm.common.DiffUtils;
-import com.xiulian.thecara.mvvm.common.SimpleDataBindingAdapter;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

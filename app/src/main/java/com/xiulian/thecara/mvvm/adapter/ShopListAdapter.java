@@ -1,28 +1,26 @@
 package com.xiulian.thecara.mvvm.adapter;
 
-import android.content.Context;
-import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
-import android.support.v7.widget.RecyclerView;
+import android.support.annotation.Nullable;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
 import com.xiulian.thecara.R;
-import com.xiulian.thecara.databinding.ItemHomeShopBinding;
 import com.xiulian.thecara.entity.NewsInfo;
-import com.xiulian.thecara.mvvm.common.DiffUtils;
-import com.xiulian.thecara.mvvm.common.SimpleDataBindingAdapter;
+
+import java.util.List;
 
 /**
  * @author wzh
  * @date 2020/10/15
  */
-public class ShopListAdapter extends SimpleDataBindingAdapter<NewsInfo, ItemHomeShopBinding> {
-    public ShopListAdapter(Context context) {
-        super(context, R.layout.item_home_shop, DiffUtils.getInstance().getTestMusicItemCallback());
+public class ShopListAdapter extends BaseQuickAdapter<NewsInfo, BaseViewHolder> {
+    public ShopListAdapter(@Nullable List<NewsInfo> data) {
+        super(R.layout.item_home_shop, data);
     }
 
     @Override
-    protected void onBindItem(ItemHomeShopBinding binding, NewsInfo item, RecyclerView.ViewHolder holder) {
-        binding.setNewsInfo(item);
+    protected void convert(@NonNull BaseViewHolder helper, NewsInfo item) {
+
     }
 }
