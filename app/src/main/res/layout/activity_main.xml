@@ -47,15 +47,14 @@
 
         </android.support.constraint.ConstraintLayout>
 
-        <include
+        <FrameLayout
             android:id="@+id/fl_drawer"
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:background="@color/color_white"
-            layout="@layout/drawer_main"
             android:layout_gravity="start"
             android:fitsSystemWindows="true">
 
-        </include>
+        </FrameLayout>
     </android.support.v4.widget.DrawerLayout>
 </layout>

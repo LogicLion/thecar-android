@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="vm"
+            type="com.xiulian.thecara.mvvm.DrawerViewModel" />
+
+    </data>
+
+<android.support.constraint.ConstraintLayout
+
     android:background="@color/color_white"
     android:clickable="true"
     android:layout_width="match_parent"
@@ -347,3 +356,4 @@
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
+</layout>

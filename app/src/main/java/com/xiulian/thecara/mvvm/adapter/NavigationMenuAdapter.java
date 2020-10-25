@@ -1,6 +1,7 @@
 package com.xiulian.thecara.mvvm.adapter;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -33,5 +34,8 @@ public class NavigationMenuAdapter extends BaseQuickAdapter<NewsInfo, BaseViewHo
         tvTitle.setText("aaaaa");
     }
 
-
+    @Override
+    protected View getItemView(int layoutResId, ViewGroup parent) {
+        return super.getItemView(layoutResId, parent);
+    }
 }

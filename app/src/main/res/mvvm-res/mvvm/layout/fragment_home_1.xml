@@ -14,11 +14,41 @@
     </data>
 
 
-        <ScrollView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <com.xiulian.thecara.widget.NoScrollViewPager
+                android:id="@+id/vp_home"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:background="@color/color_white"
+                app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_news"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_shop"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+            </com.xiulian.thecara.widget.NoScrollViewPager>
+
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/appbarLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -234,31 +264,18 @@
 
                 </android.support.design.widget.TabLayout>
 
-                <com.xiulian.thecara.widget.WrapContentHeightViewPager
-                    android:id="@+id/vp_home"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/color_white"
-                    android:overScrollMode="never"
-                    app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_news"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            </android.support.design.widget.AppBarLayout>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_shop"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clipToPadding="false"
-                        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        </android.support.design.widget.CoordinatorLayout>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:visibility="invisible"
+            android:background="@color/color_gray_303133">
 
-                </com.xiulian.thecara.widget.WrapContentHeightViewPager>
-
-            </LinearLayout>
-        </ScrollView>
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
 
 </layout>

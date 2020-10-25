@@ -2,10 +2,12 @@ package com.xiulian.thecara.mvvm.home;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +68,7 @@ public class HomeFragment extends MvvmFragment {
             R.drawable.shape_color_white_indicator_unselected
     };
     private LinearLayout mBannerIndicator;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     public void initViewModel() {
@@ -153,14 +156,6 @@ public class HomeFragment extends MvvmFragment {
         list1.add(new NewsInfo("资讯3",3));
         list1.add(new NewsInfo("资讯3",1));
 
-        rvNews.setLayoutManager(new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        rvNews.setFocusable(false);
-        rvNews.setNestedScrollingEnabled(false);
         HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(list1);
         homeNewsAdapter.setOnLoadMoreListener(() -> {
             Log.v("加载更多", "加载更多");
@@ -174,14 +169,6 @@ public class HomeFragment extends MvvmFragment {
         list2.add(new NewsInfo("门店2"));
         list2.add(new NewsInfo("门店3"));
 
-        rvShop.setLayoutManager(new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
-        rvShop.setFocusable(false);
-        rvShop.setNestedScrollingEnabled(false);
         rvShop.setAdapter(new ShopListAdapter(list2));
 
         mDisposable.add(homeViewModel.getVersion().subscribe(
@@ -189,20 +176,32 @@ public class HomeFragment extends MvvmFragment {
                 error -> {}
         ));
 
-//        CoordinatorLayout cl = view.findViewById(R.id.cl);
-//        AppBarLayout appbarLayout = view.findViewById(R.id.appbarLayout);
-//        View clTitle = view.findViewById(R.id.cl_title);
-//        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                Log.v("滑动距离", verticalOffset+"");
-//                if (-verticalOffset > DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.INVISIBLE) {
-//                    clTitle.setVisibility(View.VISIBLE);
-//                }else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
-//                    clTitle.setVisibility(View.INVISIBLE);
+        AppBarLayout appbarLayout = view.findViewById(R.id.appbarLayout);
+        View clTitle = view.findViewById(R.id.cl_title);
+        appbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                Log.v("滑动距离", verticalOffset+"");
+                if (-verticalOffset > DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.INVISIBLE) {
+                    clTitle.setVisibility(View.VISIBLE);
+                }
+                else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
+                    clTitle.setVisibility(View.INVISIBLE);
+                }
+
+
+                //SwipeRefreshLayout和CoordinatorLayout嵌套滑动冲突问题解决
+//                if (verticalOffset >= 0) {
+//                    //当滑动到顶部的时候开启
+//                    mSwipeRefreshLayout.setEnabled(true);
+//                }else{
+//                    //否则关闭
+//                    mSwipeRefreshLayout.setEnabled(false);
 //                }
-//            }
-//        });
+            }
+        });
+
+
     }
 
     public static HomeFragment getInstance() {

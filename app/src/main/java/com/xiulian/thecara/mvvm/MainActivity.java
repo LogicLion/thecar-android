@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity {
     public final static String MALL_FRAGMENT_KEY = "mallFragment";
     public final static String INVESTMENT_FRAGMENT_KEY = "investmentFragment";
     public final static String CAR_FRAGMENT_KEY = "carFragment";
+    public final static String DRAWER_FRAGMENT_KEY = "drawerFragment";
     public final static String SELECTED = "selected";
 
 
@@ -48,6 +49,7 @@ public class MainActivity extends BaseActivity {
     private MallFragment mallFragment;
     private InvestmentFragment investmentFragment;
     private CarFragment carFragment;
+    private DrawerFragment drawerFragment;
     private ArrayList<Fragment> fragmentList;
     private TabLayout tabLayout;
     private FrameLayout frameLayout;
@@ -75,14 +77,22 @@ public class MainActivity extends BaseActivity {
         viewDataBinding.setUser(new User());
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout);
-        TextView tvSignIn = findViewById(R.id.tv_sign_in);
-        tvSignIn.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, PointsCenterActivity.class)));
 
         homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
         newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
         mallFragment = (MallFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
         investmentFragment = (InvestmentFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
         carFragment = (CarFragment) getSupportFragmentManager().findFragmentByTag(HOME_FRAGMENT_KEY);
+        drawerFragment = (DrawerFragment) getSupportFragmentManager().findFragmentByTag(DRAWER_FRAGMENT_KEY);
+        if (drawerFragment == null) {
+            drawerFragment = DrawerFragment.getInstance();
+        }
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        if (!drawerFragment.isAdded()) {
+            transaction.add(R.id.fl_drawer,drawerFragment, DRAWER_FRAGMENT_KEY);
+        }
+        transaction.show(drawerFragment).commit();
 
         if (homeFragment == null) {
             homeFragment = HomeFragment.getInstance();
@@ -103,6 +113,8 @@ public class MainActivity extends BaseActivity {
         if (carFragment == null) {
             carFragment = CarFragment.getInstance();
         }
+
+
 
         fragmentList = new ArrayList<>();
         fragmentList.add(homeFragment);
