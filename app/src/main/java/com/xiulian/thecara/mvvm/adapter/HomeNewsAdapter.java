@@ -1,9 +1,11 @@
 package com.xiulian.thecara.mvvm.adapter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.diff.BaseQuickDiffCallback;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.entity.NewsInfo;
 
@@ -32,5 +34,23 @@ public class HomeNewsAdapter extends BaseMultiItemQuickAdapter<NewsInfo, BaseVie
     @Override
     protected void convert(@NonNull BaseViewHolder helper, NewsInfo item) {
 
+    }
+
+
+    public static class NewsDiffCallBack extends BaseQuickDiffCallback<NewsInfo> {
+
+        public NewsDiffCallBack(@Nullable List<NewsInfo> newList) {
+            super(newList);
+        }
+
+        @Override
+        protected boolean areItemsTheSame(@NonNull NewsInfo oldItem, @NonNull NewsInfo newItem) {
+            return false;
+        }
+
+        @Override
+        protected boolean areContentsTheSame(@NonNull NewsInfo oldItem, @NonNull NewsInfo newItem) {
+            return oldItem.toString().equals(newItem.toString());
+        }
     }
 }

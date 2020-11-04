@@ -40,4 +40,13 @@ public class NewsInfo implements MultiItemEntity {
     public int getItemType() {
         return type;
     }
+
+
+    @Override
+    public String toString() {
+        return "NewsInfo{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }
