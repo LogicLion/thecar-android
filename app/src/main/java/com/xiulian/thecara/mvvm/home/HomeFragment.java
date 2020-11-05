@@ -1,24 +1,22 @@
 package com.xiulian.thecara.mvvm.home;
 
+import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.App;
@@ -32,6 +30,7 @@ import com.xiulian.thecara.mvvm.adapter.NavigationMenuPagerAdapter;
 import com.xiulian.thecara.mvvm.adapter.ShopListAdapter;
 import com.xiulian.thecara.mvvm.common.CommonViewPagerAdapter;
 import com.xiulian.thecara.mvvm.common.DataBindingConfig;
+import com.xiulian.thecara.mvvm.mall.MallFragment;
 import com.xiulian.thecara.utils.BannerImageLoader;
 import com.xiulian.thecara.utils.DisplayUtil;
 import com.youth.banner.Banner;
@@ -69,6 +68,8 @@ public class HomeFragment extends MvvmFragment {
     };
     private LinearLayout mBannerIndicator;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+    private HomeNewsAdapter mHomeNewsAdapter;
+    private ArrayList<NewsInfo> mInitList;
 
     @Override
     public void initViewModel() {
@@ -145,23 +146,24 @@ public class HomeFragment extends MvvmFragment {
 
         vpHome.setAdapter(new CommonViewPagerAdapter(2,false,new String[]{"有料推荐","附近门店"}));
         tabLayout.setupWithViewPager(vpHome);
-        ArrayList<NewsInfo> list1 = new ArrayList<>();
-        list1.add(new NewsInfo("资讯1",1));
-        list1.add(new NewsInfo("资讯2",1));
-        list1.add(new NewsInfo("资讯3",2));
-        list1.add(new NewsInfo("资讯3",1));
-        list1.add(new NewsInfo("资讯3",1));
-        list1.add(new NewsInfo("资讯3",2));
-        list1.add(new NewsInfo("资讯3",2));
-        list1.add(new NewsInfo("资讯3",3));
-        list1.add(new NewsInfo("资讯3",1));
+        mInitList = new ArrayList<>();
+        mInitList.add(new NewsInfo("资讯1",1));
+        mInitList.add(new NewsInfo("资讯2",1));
+        mInitList.add(new NewsInfo("资讯3",2));
+        mInitList.add(new NewsInfo("资讯3",1));
+        mInitList.add(new NewsInfo("资讯3",1));
+        mInitList.add(new NewsInfo("资讯3",2));
+        mInitList.add(new NewsInfo("资讯3",2));
+        mInitList.add(new NewsInfo("资讯3",3));
+        mInitList.add(new NewsInfo("资讯3",1));
 
-        HomeNewsAdapter homeNewsAdapter = new HomeNewsAdapter(list1);
-        homeNewsAdapter.setOnLoadMoreListener(() -> {
+        mHomeNewsAdapter = new HomeNewsAdapter(mInitList);
+        mHomeNewsAdapter.setOnLoadMoreListener(() -> {
             Log.v("加载更多", "加载更多");
+            mHandler.sendEmptyMessageDelayed(0, 1000);
         },rvNews);
-        homeNewsAdapter.openLoadAnimation();
-        rvNews.setAdapter(homeNewsAdapter);
+        mHomeNewsAdapter.setEnableLoadMore(true);
+        rvNews.setAdapter(mHomeNewsAdapter);
 
 
         ArrayList<NewsInfo> list2 = new ArrayList<>();
@@ -188,16 +190,6 @@ public class HomeFragment extends MvvmFragment {
                 else if(-verticalOffset < DisplayUtil.dpToPx(App.getInstance(), 100)&&clTitle.getVisibility()==View.VISIBLE){
                     clTitle.setVisibility(View.INVISIBLE);
                 }
-
-
-                //SwipeRefreshLayout和CoordinatorLayout嵌套滑动冲突问题解决
-//                if (verticalOffset >= 0) {
-//                    //当滑动到顶部的时候开启
-//                    mSwipeRefreshLayout.setEnabled(true);
-//                }else{
-//                    //否则关闭
-//                    mSwipeRefreshLayout.setEnabled(false);
-//                }
             }
         });
 
@@ -271,6 +263,53 @@ public class HomeFragment extends MvvmFragment {
     }
 
 
+    public void getMoreData() {
+        ArrayList<NewsInfo> newList = new ArrayList<>();
+        List<NewsInfo> oldList = mHomeNewsAdapter.getData();
+        newList.addAll(oldList);
+        newList.addAll(mInitList);
+        DiffCallback<NewsInfo> diffCallback = new DiffCallback<>(oldList, newList);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
+//            mHomeNewsAdapter.setNewData(loadList);
+        mHomeNewsAdapter.setNewDiffData(diffResult,newList);
+        mHomeNewsAdapter.loadMoreComplete();
+    }
 
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage( Message msg) {
+            getMoreData();
+        }
+    };
 
+    public static class DiffCallback<T> extends DiffUtil.Callback {
+
+        private List<T> oldItems;
+        private List<T> newItems;
+        public DiffCallback(List<T> oldItems, List<T> newItems ) {
+            this.oldItems = oldItems;
+            this.newItems = newItems;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldItems.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newItems.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldItemPosition==newItemPosition;
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldItems.get(oldItemPosition).equals(newItems.get(newItemPosition));
+        }
+    }
 }
