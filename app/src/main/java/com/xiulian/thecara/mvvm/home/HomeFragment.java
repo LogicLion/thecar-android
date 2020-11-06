@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.util.DiffUtil;
@@ -17,6 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.scwang.smart.refresh.header.MaterialHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.xiulian.thecara.BR;
 import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.App;
@@ -88,6 +91,13 @@ public class HomeFragment extends MvvmFragment {
         RecyclerView rvNews = view.findViewById(R.id.rv_news);
         RecyclerView rvShop = view.findViewById(R.id.rv_shop);
         mBannerIndicator = view.findViewById(R.id.ll_banner_indicator);
+
+
+        RefreshLayout refreshLayout = view.findViewById(R.id.refreshLayout);
+        MaterialHeader refreshHeader = view.findViewById(R.id.refresh_header);
+        refreshHeader.setColorSchemeResources(R.color.color_black_333333);
+        //禁止越界回弹
+        refreshLayout.setEnableOverScrollBounce(false);
 
         View viewChipType1 = View.inflate(getContext(), R.layout.view_home_chip_type_2, null);
         flChip.addView(viewChipType1);
