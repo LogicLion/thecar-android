@@ -21,7 +21,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textColor="@color/color_black_333333"
-            android:text="开泰汽车专业汽车维修保养店开泰汽车专业汽车维修保养店开泰汽车专业汽车维修保养店"
+            android:text="@{newsInfo.name}"
             android:maxLines="1"
             android:ellipsize="end"
             android:textSize="16sp"

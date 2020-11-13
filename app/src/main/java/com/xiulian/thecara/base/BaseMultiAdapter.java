@@ -1,15 +1,16 @@
 package com.xiulian.thecara.base;
 
-import android.databinding.DataBindingUtil;
-import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.util.DiffUtil;
 
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.chad.library.adapter.base.diff.BaseQuickDiffCallback;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.xiulian.thecara.entity.NewsInfo;
+import com.xiulian.thecara.mvvm.adapter.NewsDiffCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ import java.util.List;
  * @author wzh
  * @date 2020/11/6
  */
-public abstract class BaseAdapter<T, K extends BaseViewHolder> extends BaseQuickAdapter<T,K> {
-    public BaseAdapter(int layoutResId) {
-        super(layoutResId);
+public abstract class BaseMultiAdapter<T extends MultiItemEntity, K extends BaseViewHolder> extends BaseMultiItemQuickAdapter<T, K> {
+    public BaseMultiAdapter() {
+        super(new ArrayList<>());
     }
 
     public void setNewList(List<T> newList) {
@@ -30,10 +31,8 @@ public abstract class BaseAdapter<T, K extends BaseViewHolder> extends BaseQuick
     }
 
     public abstract boolean areItemsTheSame(T oldItem, T newItem);
+
     public abstract boolean areContentsTheSame(T oldItem, T newItem);
-
-    public abstract void onBindItem(@NonNull K helper, T item,ViewDataBinding binding);
-
 
     /**
      * 可选实现
@@ -45,15 +44,6 @@ public abstract class BaseAdapter<T, K extends BaseViewHolder> extends BaseQuick
         return null;
     }
 
-    @Override
-    protected void convert(@NonNull K helper, T item) {
-        ViewDataBinding binding = DataBindingUtil.getBinding(helper.itemView);
-        onBindItem(helper, item, binding);
-
-        if (binding != null) {
-            binding.executePendingBindings();
-        }
-    }
 
     public class DiffCallBack extends BaseQuickDiffCallback<T> {
 
@@ -63,29 +53,17 @@ public abstract class BaseAdapter<T, K extends BaseViewHolder> extends BaseQuick
 
         @Override
         protected boolean areItemsTheSame(@NonNull T oldItem, @NonNull T newItem) {
-            return BaseAdapter.this.areItemsTheSame(oldItem, newItem);
+            return BaseMultiAdapter.this.areItemsTheSame(oldItem, newItem);
         }
 
         @Override
         protected boolean areContentsTheSame(@NonNull T oldItem, @NonNull T newItem) {
-            return BaseAdapter.this.areContentsTheSame(oldItem, newItem);
+            return BaseMultiAdapter.this.areContentsTheSame(oldItem, newItem);
         }
 
         @Nullable
         protected Object getChangePayload(@NonNull T oldItem, @NonNull T newItem) {
-            return BaseAdapter.this.getChangePayload(oldItem, newItem);
+            return BaseMultiAdapter.this.getChangePayload(oldItem, newItem);
         }
     }
-
-    @Override
-    protected View getItemView(int layoutResId, ViewGroup parent) {
-        ViewDataBinding binding = DataBindingUtil.inflate(mLayoutInflater, layoutResId, parent, false);
-        if (binding == null) {
-            return super.getItemView(layoutResId, parent);
-        }
-        View view = binding.getRoot();
-        return view;
-    }
-
-
 }

@@ -17,6 +17,7 @@ import com.xiulian.thecara.R;
 import com.xiulian.thecara.base.BaseFragment;
 import com.xiulian.thecara.entity.NewsInfo;
 import com.xiulian.thecara.mvvm.adapter.HomeNewsAdapter;
+import com.xiulian.thecara.mvvm.adapter.NewsDiffCallBack;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +56,8 @@ import java.util.List;
         mInitList.add(new NewsInfo("资讯3",2));
         mInitList.add(new NewsInfo("资讯3",1));
 
-        mHomeNewsAdapter = new HomeNewsAdapter(mInitList);
+        mHomeNewsAdapter = new HomeNewsAdapter();
+        mHomeNewsAdapter.setNewList(mInitList);
 //        HomeNewsAdapter.NewsDiffCallBack newsDiffCallBack = new HomeNewsAdapter.NewsDiffCallBack(mInitList);
 //        mHomeNewsAdapter.setNewDiffData(newsDiffCallBack);
         View headerView = View.inflate(getContext(), R.layout.header_view, null);
@@ -84,14 +86,11 @@ import java.util.List;
         public void handleMessage(Message msg) {
 //        HomeNewsAdapter.NewsDiffCallBack newsDiffCallBack = new HomeNewsAdapter.NewsDiffCallBack(newList);
 //        mHomeNewsAdapter.setNewDiffData(newsDiffCallBack);
-            ArrayList<NewsInfo> newList = new ArrayList<>();
             List<NewsInfo> oldList = mHomeNewsAdapter.getData();
-            newList.addAll(oldList);
-            newList.addAll(mInitList);
-            DiffCallback<NewsInfo> diffCallback = new DiffCallback<>(oldList, newList);
-            DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//            mHomeNewsAdapter.setNewData(loadList);
-            mHomeNewsAdapter.setNewDiffData(diffResult,newList);
+            oldList.addAll(mInitList);
+
+            mHomeNewsAdapter.setNewList(oldList);
+
             mHomeNewsAdapter.loadMoreComplete();
         }
     };
@@ -106,33 +105,4 @@ import java.util.List;
     }
 
 
-    public class DiffCallback<T> extends DiffUtil.Callback {
-
-        private List<T> oldItems;
-        private List<T> newItems;
-        public DiffCallback(List<T> oldItems, List<T> newItems ) {
-            this.oldItems = oldItems;
-            this.newItems = newItems;
-        }
-
-        @Override
-        public int getOldListSize() {
-            return oldItems.size();
-        }
-
-        @Override
-        public int getNewListSize() {
-            return newItems.size();
-        }
-
-        @Override
-        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldItemPosition==newItemPosition;
-        }
-
-        @Override
-        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-            return oldItems.get(oldItemPosition).equals(newItems.get(newItemPosition));
-        }
-    }
 }

@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smart.refresh.header.MaterialHeader;
 import com.scwang.smart.refresh.layout.api.RefreshLayout;
 import com.xiulian.thecara.BR;
@@ -73,6 +74,8 @@ public class HomeFragment extends MvvmFragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private HomeNewsAdapter mHomeNewsAdapter;
     private ArrayList<NewsInfo> mInitList;
+    private ShopListAdapter mShopListAdapter;
+    private ArrayList<NewsInfo> mShopList;
 
     @Override
     public void initViewModel() {
@@ -167,21 +170,33 @@ public class HomeFragment extends MvvmFragment {
         mInitList.add(new NewsInfo("资讯3",3));
         mInitList.add(new NewsInfo("资讯3",1));
 
-        mHomeNewsAdapter = new HomeNewsAdapter(mInitList);
+        mHomeNewsAdapter = new HomeNewsAdapter();
+        mHomeNewsAdapter.setNewList(mInitList);
         mHomeNewsAdapter.setOnLoadMoreListener(() -> {
             Log.v("加载更多", "加载更多");
-            mHandler.sendEmptyMessageDelayed(0, 1000);
+            mHandler.sendEmptyMessageDelayed(1, 1000);
         },rvNews);
         mHomeNewsAdapter.setEnableLoadMore(true);
         rvNews.setAdapter(mHomeNewsAdapter);
 
 
-        ArrayList<NewsInfo> list2 = new ArrayList<>();
-        list2.add(new NewsInfo("门店1"));
-        list2.add(new NewsInfo("门店2"));
-        list2.add(new NewsInfo("门店3"));
+        mShopList = new ArrayList<>();
+        mShopList.add(new NewsInfo("门店1"));
+        mShopList.add(new NewsInfo("门店2"));
+        mShopList.add(new NewsInfo("门店3"));
+        mShopList.add(new NewsInfo("门店4"));
+        mShopList.add(new NewsInfo("门店5"));
+        mShopList.add(new NewsInfo("门店6"));
 
-        rvShop.setAdapter(new ShopListAdapter(list2));
+        mShopListAdapter = new ShopListAdapter();
+        rvShop.setAdapter(mShopListAdapter);
+        mShopListAdapter.setNewList(mShopList);
+
+        mShopListAdapter.setEnableLoadMore(true);
+        mShopListAdapter.setOnLoadMoreListener(() -> {
+            mHandler.sendEmptyMessageDelayed(2, 1000);
+        },rvShop);
+
 
         mDisposable.add(homeViewModel.getVersion().subscribe(
                 versionInfoBean -> homeViewModel.versionCode.set(versionInfoBean.getAppVersionCode()),
@@ -274,22 +289,33 @@ public class HomeFragment extends MvvmFragment {
 
 
     public void getMoreData() {
-        ArrayList<NewsInfo> newList = new ArrayList<>();
         List<NewsInfo> oldList = mHomeNewsAdapter.getData();
-        newList.addAll(oldList);
-        newList.addAll(mInitList);
-        DiffCallback<NewsInfo> diffCallback = new DiffCallback<>(oldList, newList);
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(diffCallback);
-//            mHomeNewsAdapter.setNewData(loadList);
-        mHomeNewsAdapter.setNewDiffData(diffResult,newList);
+        oldList.addAll(mInitList);
+        mHomeNewsAdapter.setNewList(oldList);
         mHomeNewsAdapter.loadMoreComplete();
     }
+
+    public void getMoreShopData() {
+        List<NewsInfo> list = mShopListAdapter.getData();
+        list.addAll(mShopList);
+        mShopListAdapter.setNewList(list);
+        mShopListAdapter.loadMoreComplete();
+    }
+
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage( Message msg) {
-            getMoreData();
+            switch (msg.what) {
+                case 1:
+                    getMoreData();
+                    break;
+                case 2:
+                    getMoreShopData();
+                    break;
+            }
+
         }
     };
 

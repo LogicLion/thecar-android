@@ -17,6 +17,12 @@ class App : MvpApp() {
         LogUtil.i("App","app初始化")
 
         initSDK()
+
+        val brand = android.os.Build.BRAND
+
+        Log.i("手机品牌", brand)
+
+
     }
 
     companion object {
